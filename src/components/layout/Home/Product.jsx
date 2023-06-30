@@ -1,9 +1,23 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { addProductCart } from "../../../store/slices/cart.slice";
 
 const Product = ({ product }) => {
+  const dispatch = useDispatch();
+
+  const handleClickAddProduct = (e) => {
+    e.preventDefault();
+    const productToAdd = { quantity: 1, productId: product.id };
+    dispatch(addProductCart(productToAdd));
+  };
+
   return (
-    <article>
-      <div className="h-[200px] p-4 relative group">
+    <Link
+      to={`/products/${product.id}`}
+      className="border-[1px] -border--light-gray rounded-md"
+    >
+      <div className="h-[200px] p-4 relative group border-b-2">
         <img
           src={product.images[0].url}
           alt=""
@@ -17,16 +31,20 @@ const Product = ({ product }) => {
           />
         </div>
       </div>
-      <section>
-        <h5>{product.brand}</h5>
-        <h4>{product.title}</h4>
-        <span>Price</span>
-        <span>$ {product.price}</span>
-        <button>
-          <i class="bx bx-cart"></i>
-        </button>
+      <section className="p-4">
+        <h5 className="-text--text-gray">{product.brand}</h5>
+        <h4 className="-text--dark-gray pl-3 font-bold">{product.title}</h4>
+        <div className="flex justify-between">
+          <div className="flex flex-col">
+            <span className="-text--text-gray">Price</span>
+            <span className="-text--dark-gray pl-3 font-bold">$ {product.price}</span>
+          </div>
+          <button onClick={handleClickAddProduct} className="-bg--primary w-[50px] rounded-full flex justify-center items-center">
+            <i className="bx bx-cart text-2xl text-white"></i>
+          </button>
+        </div>
       </section>
-    </article>
+    </Link>
   );
 };
 

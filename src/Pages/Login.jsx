@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, loginUser } from "../store/slices/userInfo.slice";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const { token, user } = useSelector((store) => store.userInfo);
@@ -14,18 +15,21 @@ const Login = () => {
   };
 
   const handleClickLogout = () => {
-    dispatch(logOut())
-  }
+    dispatch(logOut());
+  };
 
   return (
-    <section className="bg-gray-200 grid place-content-center px-2">
+    <section className="bg-gray-200 grid place-content-center px-4 min-h-screen">
       {token ? (
-        <section className="bg-white rounded-xl p-4 w-[300px] grid gap-6 text-center">
+        <section className="bg-white rounded-xl p-4 w-[260px] grid gap-6 text-center">
           <i className="bx bxs-user-circle text-center text-8xl "></i>
           <span className="font-bold">
             {user.firstName} {user.lastName}
           </span>
-          <button onClick={handleClickLogout} className="rounded-md block w-full py-2 bg-red-500 text-white hover:bg-red-600 transition-colors">
+          <button
+            onClick={handleClickLogout}
+            className="rounded-md block w-full py-2 bg-red-500 text-white hover:bg-red-600 transition-colors"
+          >
             Logout
           </button>
         </section>
@@ -76,7 +80,9 @@ const Login = () => {
           </button>
           <p className="text-sm">
             Don`t have an account?{" "}
-            <span className="text-blue-400">Sign up</span>
+            <Link to="/register">
+              <span className="text-blue-400">Sign up</span>
+            </Link>
           </p>
         </form>
       )}
