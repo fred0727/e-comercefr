@@ -13,7 +13,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-200">
+    <div className="flex justify-center items-center min-h-screen bg-gray-200 p-4">
       <div className="md:max-w-[500px] bg-white p-4 pb-8 rounded-md">
       <h2 className="-text--text-gray text-2xl text-center mt-4">Register</h2>
       <form
