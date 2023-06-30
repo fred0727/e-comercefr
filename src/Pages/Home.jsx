@@ -52,9 +52,7 @@ const Home = () => {
 
   return (
     <div className="">
-      <section
-        className="fixed top-0 bg-white h-screen w-[300px] py-20 px-4 hidden lg:flex"
-      >
+      <section className="fixed top-0 bg-white h-screen w-[300px] py-20 px-4 hidden lg:flex">
         <Filters
           isShowFilters={isShowFilters}
           handleChangeShowFilters={handleChangeShowFilters}
@@ -65,7 +63,10 @@ const Home = () => {
         />
       </section>
       <section className="px-6 pt-16 min-h-screen mb-[90px] md:max-w-[650px] mx-auto lg:ml-[300px] lg:max-w-full lg:pt-24">
-        <form onSubmit={handleSubmit} className=" w-full flex flex-col mb-8 lg:max-w-[750px] lg:mx-auto">
+        <form
+          onSubmit={handleSubmit}
+          className=" w-full flex flex-col mb-8 lg:max-w-[750px] lg:mx-auto"
+        >
           <div className="flex pt-8 pb-4 items-center">
             <input
               id="productName"
@@ -88,14 +89,20 @@ const Home = () => {
           </section>
         </form>
 
-        <section className="grid gap-10 p-2 lg:grid-cols-[repeat(auto-fill,_300px)] lg:gap-4 lg:justify-center">
-          {filterPrice
-            ? filterPrice.map((product) => (
-                <Product key={product.id} product={product} />
-              ))
-            : productsByName.map((product) => (
-                <Product key={product.id} product={product} />
-              ))}
+        <section className="grid gap-10 p-2 grid-cols-[repeat(auto-fill,250px)] md:grid-cols-[repeat(auto-fill,_270px)] lg:grid-cols-[repeat(auto-fill,_300px)] lg:gap-4 justify-center">
+          {filterPrice ? (
+            filterPrice.map((product) => (
+              <Product key={product.id} product={product} />
+            ))
+          ) : productsByName.length == 0 ? (
+            <div className="grid col-span-3 text-center -text--dark-gray text-lg">
+              Products Not Found
+            </div>
+          ) : (
+            productsByName.map((product) => (
+              <Product key={product.id} product={product} />
+            ))
+          )}
         </section>
       </section>
       <section
@@ -113,8 +120,7 @@ const Home = () => {
         />
       </section>
       <div className="lg:absolute w-full">
-      <Footer />
-
+        <Footer />
       </div>
     </div>
   );

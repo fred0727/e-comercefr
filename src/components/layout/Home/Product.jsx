@@ -1,15 +1,25 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { addProductCart } from "../../../store/slices/cart.slice";
+import { messageAddExists } from "../../../utils/message";
 
 const Product = ({ product }) => {
   const dispatch = useDispatch();
 
+  const {products} = useSelector(store => store.cart);
+
+  const {token} = useSelector(store => store.userInfo);
+
   const handleClickAddProduct = (e) => {
     e.preventDefault();
-    const productToAdd = { quantity: 1, productId: product.id };
-    dispatch(addProductCart(productToAdd));
+    const existsProduct = products.some(item => item.product.id == product.id)
+    if (existsProduct && token) {
+      messageAddExists()
+    }else{
+      const productToAdd = { quantity: 1, productId: product.id };
+      dispatch(addProductCart(productToAdd));
+    }
   };
 
   return (
@@ -33,7 +43,7 @@ const Product = ({ product }) => {
       </div>
       <section className="p-4">
         <h5 className="-text--text-gray">{product.brand}</h5>
-        <h4 className="-text--dark-gray pl-3 font-bold">{product.title}</h4>
+        <h4 className="-text--dark-gray pl-3 font-bold truncate pb-4">{product.title}</h4>
         <div className="flex justify-between">
           <div className="flex flex-col">
             <span className="-text--text-gray">Price</span>

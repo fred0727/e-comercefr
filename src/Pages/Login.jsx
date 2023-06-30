@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, loginUser } from "../store/slices/userInfo.slice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { token, user } = useSelector((store) => store.userInfo);
 
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const submit = (data) => {
     dispatch(loginUser(data));
@@ -16,6 +17,10 @@ const Login = () => {
 
   const handleClickLogout = () => {
     dispatch(logOut());
+  };
+
+  const handleClickHome = () => {
+    navigate("/");
   };
 
   return (
@@ -31,6 +36,12 @@ const Login = () => {
             className="rounded-md block w-full py-2 bg-red-500 text-white hover:bg-red-600 transition-colors"
           >
             Logout
+          </button>
+          <button
+            onClick={handleClickHome}
+            className="cursor-pointer text-blue-500"
+          >
+            Go Home
           </button>
         </section>
       ) : (
@@ -53,32 +64,34 @@ const Login = () => {
             </div>
           </section>
           <div className="grid gap-2">
-            <label className="text-sm" htmlFor="email">
+            <label className="text-sm lg:text-lg" htmlFor="email">
               Email
             </label>
             <input
               className="border-[1px] border-gray-300 outline-none p-2 rounded-sm"
               type="text"
               id="email"
+              required
               {...register("email")}
             />
           </div>
-          <div className="grid gap-2">
-            <label className="text-sm" htmlFor="password">
+          <div className="grid gap-2 pt-3">
+            <label className="text-sm lg:text-lg" htmlFor="password">
               Password
             </label>
             <input
               className="border-[1px] border-gray-300 outline-none p-2 rounded-sm"
               type="password"
               id="password"
+              required
               {...register("password")}
             />
           </div>
 
-          <button className="block w-full my-4 py-2 bg-red-500 text-white hover:bg-red-600 transition-colors">
+          <button className="block w-full my-4 py-2 bg-red-500 text-white hover:bg-red-600 transition-colors lg:text-xl">
             Login
           </button>
-          <p className="text-sm">
+          <p className="text-sm lg:text-lg">
             Don`t have an account?{" "}
             <Link to="/register">
               <span className="text-blue-400">Sign up</span>

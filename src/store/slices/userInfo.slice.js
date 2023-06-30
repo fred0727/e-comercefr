@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { axiosEcommerce } from "../../utils/configAxios";
-import { Navigate } from "react-router-dom";
+import { messageErrorLog, messageErrorSignUp, successfulRegistration } from "../../utils/message";
 
 const initialState = {
   token: "",
@@ -34,14 +34,19 @@ export const loginUser = (dataForm) => (dispatch) => {
   axiosEcommerce
     .post("/users/login", dataForm)
     .then(({ data }) => dispatch(setUserInfo(data)))
-    .catch((err) => console.log(err));
+    .catch((err) => messageErrorLog());
 };
 
-export const registerUser = (dataForm) => (dispatch) => {
+export const createUser = (dataForm) => (dispatch) => {
   axiosEcommerce
     .post("/users", dataForm)
-    .then(() => dispatch(logOut()))
-    .catch((err) => console.log(err));
+    .then(() => {
+      successfulRegistration();
+      setTimeout(() => {
+        window.location.href = '/login'; 
+      }, 2500);
+    })
+    .catch((err) => messageErrorSignUp());
 };
 
 export default userInfoSlice.reducer;

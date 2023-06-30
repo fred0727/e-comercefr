@@ -16,9 +16,14 @@ const Cart = () => {
 
   const handleClickChangeShowCart = () => dispatch(changeIsShowCart());
 
-  const handleCLickCheckout = () => dispatch(checkoutCart())
+  const handleCLickCheckout = () => {
+    dispatch(checkoutCart());
+  };
 
-  const totalPriceCheckout = products.reduce((acc, product) => acc + (product.quantity * product.product.price), 0)
+  const totalPriceCheckout = products.reduce(
+    (acc, product) => acc + product.quantity * product.product.price,
+    0
+  );
 
   useEffect(() => {
     if (token && isShowCart) {
@@ -47,8 +52,13 @@ const Cart = () => {
       {/* Seccion precio total */}
       <section className="border-t-[1px] border-gray-400 p-4 grid grid-cols-2 gap-4">
         <span className="font-bold">Total</span>
-        <span className="text-end font-semibold">$ {totalPriceCheckout.toFixed(2)}</span>
-        <span onClick={handleCLickCheckout} className="col-span-2 block w-full py-2 bg-red-500 text-white hover:bg-red-600 transition-colors text-center cursor-pointer">
+        <span className="text-end font-semibold">
+          $ {totalPriceCheckout.toFixed(2)}
+        </span>
+        <span
+          onClick={handleCLickCheckout}
+          className="col-span-2 block w-full py-2 bg-red-500 text-white hover:bg-red-600 transition-colors text-center cursor-pointer"
+        >
           Checkout
         </span>
       </section>

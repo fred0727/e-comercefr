@@ -30,6 +30,7 @@ const Filters = ({
       });
       if (productsFilter.length == 0) {
         message.innerHTML = "No products found";
+        e.target.reset();
       } else {
         setFilterPrice(productsFilter);
         setTimeout(() => {

@@ -9,7 +9,6 @@ const CartProduct = ({ cartProduct }) => {
   const [quantityProduct, setQuantityProduct] = useState(cartProduct.quantity)
 
   const dispatch = useDispatch();
-  console.log(cartProduct);
 
   const totalPrice = (cartProduct.quantity * cartProduct.product.price).toFixed(
     2
@@ -23,7 +22,7 @@ const CartProduct = ({ cartProduct }) => {
     const totalAdd = quantityProduct - 1
     if(quantityProduct > 1){
       setQuantityProduct(totalAdd)
-      const productToAdd = { quantity: totalAdd, productId: cartProduct.productId };
+      const productToAdd = { quantity: totalAdd, productId: cartProduct.id };
       dispatch(updateProductCart(productToAdd));
     }
   };

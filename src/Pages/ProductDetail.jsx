@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { axiosEcommerce } from "../utils/configAxios";
-
 import { BiChevronLeft, BiChevronRight, BiMinus, BiPlus } from "react-icons/bi";
 import ListProduct from "../components/layout/Home/ListProduct";
 import { addProductCart } from "../store/slices/cart.slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "../components/layout/Footer";
+import { messageAddExists } from "../utils/message";
 
 const sliderStyles = {
   1: "-ml-[0%]",
@@ -21,6 +21,9 @@ const ProductDetail = () => {
   const [imageToShow, setImageToShow] = useState(1);
 
   const { id } = useParams();
+
+  const { products } = useSelector((store) => store.cart);
+  const {token} = useSelector(store => store.userInfo);
 
   const dispatch = useDispatch();
 
@@ -45,8 +48,15 @@ const ProductDetail = () => {
   };
 
   const handleClickAddProduct = () => {
-    const productToAdd = { quantity, productId: product.id };
-    dispatch(addProductCart(productToAdd));
+    const existsProduct = products.some(
+      (item) => item.product.id == product.id
+    );
+    if (existsProduct && token) {
+      messageAddExists();
+    } else {
+      const productToAdd = { quantity, productId: product.id };
+      dispatch(addProductCart(productToAdd));
+    }
   };
 
   useEffect(() => {
@@ -72,7 +82,7 @@ const ProductDetail = () => {
 
   return (
     <div>
-      <section className="p-2 max-w-[1000px] mx-auto mt-16 px-4">
+      <section className="p-2 max-w-[1000px] mx-auto mt-16 px-4 lg:mt-24 lg:max-w-[1200px]">
         <section className="flex text-xs gap-3 items-center">
           <Link to="/" className="text-lg -text--dark-gray">
             Home
@@ -147,14 +157,14 @@ const ProductDetail = () => {
                     className="p-1 px-3 border-[1px]"
                     onClick={handleClickLess}
                   >
-                    <BiMinus className="-text--dark-gray"/>
+                    <BiMinus className="-text--dark-gray" />
                   </button>
                   <div className="p-1 px-4 border-[1px]">{quantity}</div>
                   <button
                     className="p-1 px-3 border-[1px]"
                     onClick={handleClickPlus}
                   >
-                    <BiPlus className="-text--dark-gray"/>
+                    <BiPlus className="-text--dark-gray" />
                   </button>
                 </div>
               </article>
@@ -169,7 +179,9 @@ const ProductDetail = () => {
           </article>
         </section>
         <section>
-          <h3 className="-text--primary font-bold text-lg py-4">Discover similar items</h3>
+          <h3 className="-text--primary font-bold text-lg py-4">
+            Discover similar items
+          </h3>
           <ListProduct products={similarProducts} />
         </section>
       </section>
