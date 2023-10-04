@@ -10,7 +10,6 @@ import Cart from "./components/Cart/Cart";
 import SignUp from "./Pages/SignUp";
 
 function App() {
-
   return (
     <main className="grid grid-rows-[auto_1fr] min-h-screen font-['Yantramanav']">
       <Header />
@@ -23,7 +22,7 @@ function App() {
           <Route path="/purchases" element={<Purchases />} />
         </Route>
       </Routes>
-      <Cart/>
+      <Cart />
     </main>
   );
 }
